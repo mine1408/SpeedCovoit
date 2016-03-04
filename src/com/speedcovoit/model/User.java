@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
@@ -15,62 +17,39 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private long id;
-	
-	private String nom;
-	
-	private String prenom;
+	private long idUser;
 	
 	private String email;
 	
 	private String mdp;
 	
-	@OneToOne(mappedBy="user")
+	@ManyToOne
+	@JoinColumn(name="idPosition")
 	private Position position;
 	
-	private ArrayList<String> centresInterets;
+	private ArrayList<String> centresInteret;
 	
 	private ArrayList<String> preferences;
 	
 	public User() {
-		this.centresInterets = new ArrayList<String>();
+		this.centresInteret = new ArrayList<String>();
 		this.preferences = new ArrayList<String>();
 	}
 	
-	public User(long id, String nom, String prenom, String email, String mdp, Position position, ArrayList<String> centresInterets, ArrayList<String> preferences) {
+	public User(String email, String mdp) {
 		super();
-		this.id = id;
-		this.nom = nom;
-		this.prenom = prenom;
 		this.email = email;
 		this.mdp = mdp;
-		this.position = position;
-		this.centresInterets = centresInterets;
-		this.preferences = preferences;
+		this.centresInteret = new ArrayList<String>();
+		this.preferences = new ArrayList<String>();
 	}
 
 	public long getId() {
-		return id;
+		return idUser;
 	}
 
 	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+		this.idUser = id;
 	}
 
 	public String getEmail() {
@@ -98,11 +77,11 @@ public class User implements Serializable{
 	}
 
 	public ArrayList<String> getCentresInterets() {
-		return centresInterets;
+		return centresInteret;
 	}
 
 	public void setCentresInterets(ArrayList<String> centresInterets) {
-		this.centresInterets = centresInterets;
+		this.centresInteret = centresInterets;
 	}
 
 	public ArrayList<String> getPreferences() {
@@ -114,7 +93,7 @@ public class User implements Serializable{
 	}
 	
 	public long addOneToId() {
-		return this.id += 1;
+		return this.idUser += 1;
 	}
 
 }

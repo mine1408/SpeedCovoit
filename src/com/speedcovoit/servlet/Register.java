@@ -3,6 +3,10 @@ package com.speedcovoit.servlet;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,10 +24,11 @@ public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static String VIEW_PAGES_URL = "/WEB-INF/register.jsp";
 	public static final String FIELD_EMAIL = "email";
-	public static final String FIELD_PWD = "pwd1";
-	public static final String FIELD_CONFIRM_PWD = "pwd2";
-	public static final String FIELD_NAME = "name";
-	public static final String ATT_USERS = "users";
+	public static final String FIELD_MDP = "mdp";
+	public static final String FIELD_CONFIRM_MDP = "mdpConf";
+	private static final String PERSISTENT_UNIT_NAME = "speedcovoit";
+	private static EntityManager em;
+	private static EntityManagerFactory fact;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -50,9 +55,8 @@ public class Register extends HttpServlet {
 			throws ServletException, IOException {
 		// Get form fields
 		String email = request.getParameter(FIELD_EMAIL);
-		String pwd = request.getParameter(FIELD_PWD);
-		String pwdConfirmation = request.getParameter(FIELD_CONFIRM_PWD);
-		String name = request.getParameter(FIELD_NAME);
+		String mdp = request.getParameter(FIELD_MDP);
+		String mdpConfirm = request.getParameter(FIELD_CONFIRM_MDP);
 
 		// Prepare results
 		Map<String, String> erreurs = new HashMap<String, String>();
@@ -67,27 +71,28 @@ public class Register extends HttpServlet {
 			erreurs.put(FIELD_EMAIL, msgVal);
 		}
 
-		msgVal = validatePwd(pwd, pwdConfirmation);
+		msgVal = validateMdp(mdp, mdpConfirm);
 		if (msgVal == null) {
-			form.put(FIELD_PWD, pwd);
+			form.put(FIELD_MDP, mdp);
 		} else {
-			erreurs.put(FIELD_CONFIRM_PWD, msgVal);
-		}
-
-		msgVal = validateName(name);
-		if (msgVal == null) {
-			form.put(FIELD_NAME, name);
-		} else {
-			erreurs.put(FIELD_NAME, msgVal);
+			erreurs.put(FIELD_CONFIRM_MDP, msgVal);
 		}
 
 		User newUser = null;
 		boolean errorStatus = true;
 		if (erreurs.isEmpty()) {
-		//	newUser = new User(newUser.addOneToId(),name, prenom, email, pwd);
-			actionMessage = "Succès de l'inscription";
+			newUser = new User(email, mdp);
+			actionMessage = "Succès de l'inscription pour : " + email;
 			form = new HashMap<String, String>();
 			errorStatus = false;
+			
+			fact = Persistence.createEntityManagerFactory(PERSISTENT_UNIT_NAME);
+			em = fact.createEntityManager();
+			em.getTransaction().begin();
+			em.persist(newUser);
+			em.getTransaction().commit();
+			em.close();
+			
 		} else {
 			actionMessage = "Echec de l'inscription";
 			errorStatus = true;
@@ -111,11 +116,8 @@ public class Register extends HttpServlet {
 		return null;
 	}
 
-	private String validatePwd(String pwd1, String pwd2) {
-		return (pwd1.equals(pwd2)) ? null : "Veuillez confirmer le mot de passe";
+	private String validateMdp(String mdp, String mdp2) {
+		return (mdp.equals(mdp2)) ? null : "Veuillez confirmer le mot de passe";
 	}
 
-	private String validateName(String name) {
-		return null;
-	}
 }

@@ -15,17 +15,11 @@ public class Position implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private long idPosition;
 	
 	private float latitute;
 	
 	private float longitude;
-	
-	private String nom;
-	
-	@OneToOne
-	@JoinColumn(name="position")
-	private User user;
 	
 	public Position() {
 	}
@@ -45,21 +39,4 @@ public class Position implements Serializable {
 	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
 }

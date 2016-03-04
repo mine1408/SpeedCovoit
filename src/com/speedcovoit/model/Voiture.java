@@ -13,7 +13,7 @@ public class Voiture implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private long id;
+	private long idVoiture;
 	
 	private int nbPlaces;
 	
@@ -25,11 +25,11 @@ public class Voiture implements Serializable {
 	}
 
 	public long getId() {
-		return id;
+		return idVoiture;
 	}
 
 	public void setId(long id) {
-		this.id = id;
+		this.idVoiture = id;
 	}
 
 	public int getNbPlaces() {

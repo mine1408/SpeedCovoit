@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -18,33 +19,40 @@ public class Trajet implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private long id;
+	private long idTrajet;
 	
 	@ManyToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="idPosition")
 	private Position depart;
 	
 	@ManyToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="idPosition")
 	private Position arrivee;
 	
+	@ManyToMany
 	private ArrayList<User> passagers;
 	
+	@ManyToOne
+	@JoinColumn(name="idUser")
 	private User conducteur;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
-
+	
+	@ManyToOne
+	@JoinColumn(name="idVoiture")
+	private Voiture voiture;
+	
 	public Trajet() {
 		this.passagers = new ArrayList<User>();
 	}
 	
 	public long getId() {
-		return id;
+		return idTrajet;
 	}
 
 	public void setId(long id) {
-		this.id = id;
+		this.idTrajet = id;
 	}
 
 	public Position getDepart() {

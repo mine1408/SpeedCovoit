@@ -12,8 +12,8 @@
 		<br>
 		<c:import url="/WEB-INF/user/form.jsp" />
         <br />
-        <c:if test="${ !errorStatus }">
+       <!--   <c:if test="${ !errorStatus }">
         	<c:import url="/WEB-INF/user/card.jsp" />
-	    </c:if>
+	    </c:if>-->
     </body>
 </html>

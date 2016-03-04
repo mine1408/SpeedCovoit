@@ -3,24 +3,19 @@
                 <legend>Inscription</legend>
                 <p>Formulaire d'inscription, les champs (*) sont requis :</p>
 
-                <label for="email">Adresse email <span class="requis">*</span></label>
+                <label for="email">Adresse e-mail <span class="requis">*</span></label>
                 <input type="text" id="email" name="email" value="${form['email']}" size="20" maxlength="60" />
                 <span class="erreur">${erreurs['email']}</span>
                 <br />
 
-                <label for="motdepasse">Mot de passe <span class="requis">*</span></label>
-                <input type="password" id="pwd1" name="pwd1" value="${form['pwd1']}" size="20" maxlength="20" />
-                <span class="erreur">${erreurs['pwd1']}</span>
+                <label for="mdp">Mot de passe <span class="requis">*</span></label>
+                <input type="password" id="mdp" name="mdp" value="${form['mdp']}" size="20" maxlength="20" />
+                <span class="erreur">${erreurs['mdp']}</span>
                 <br />
 
-                <label for="confirmation">Confirmation du mot de passe <span class="requis">*</span></label>
-                <input type="password" id="pwd2" name="pwd2" value="${form['pwd2']}" size="20" maxlength="20" />
-                <span class="erreur">${erreurs['pwd2']}</span>
-                <br />
-
-                <label for="nom">Nom d'utilisateur</label>
-                <input type="text" id="name" name="name" value="${form['name']}" size="20" maxlength="20" />
-                <span class="erreur">${erreurs['name']}</span>
+                <label for="mdpConf">Confirmation du mot de passe <span class="requis">*</span></label>
+                <input type="password" id="mdpConf" name="mdpConf" value="${form['mdpConf']}" size="20" maxlength="20" />
+                <span class="erreur">${erreurs['mdpConf']}</span>
                 <br />
 
                 <input type="submit" value="Enregistrement" class="sansLabel" />
