@@ -26,7 +26,7 @@ public class Register extends HttpServlet {
 	public static final String FIELD_EMAIL = "email";
 	public static final String FIELD_MDP = "mdp";
 	public static final String FIELD_CONFIRM_MDP = "mdpConf";
-	private static final String PERSISTENT_UNIT_NAME = "speedcovoit";
+	private static final String PERSISTENT_UNIT_NAME = "SpeedCovoit";
 	private static EntityManager em;
 	private static EntityManagerFactory fact;
 

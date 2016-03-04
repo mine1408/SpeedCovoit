@@ -3,13 +3,14 @@ package com.speedcovoit.model;
 import java.util.Date;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,20 +22,21 @@ public class Trajet implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long idTrajet;
 	
 	@OneToOne
 	private Position depart;
-	
+
 	@OneToOne
 	private Position arrivee;
 	
-	@OneToMany
-	private ArrayList<Position> points;
+	@ManyToMany
+	private Collection<Position> points;
 	
 	@ManyToMany
-	private ArrayList<User> passagers;
-	
+	private Collection<User> passagers;
+
 	@OneToOne
 	private User conducteur;
 	
@@ -46,6 +48,7 @@ public class Trajet implements Serializable {
 	
 	public Trajet() {
 		this.passagers = new ArrayList<User>();
+		this.points = new ArrayList<Position>();
 	}
 	
 	public long getId() {
@@ -72,11 +75,11 @@ public class Trajet implements Serializable {
 		this.arrivee = arrivee;
 	}
 
-	public ArrayList<User> getPassagers() {
+	public Collection<User> getPassagers() {
 		return passagers;
 	}
 
-	public void setPassagers(ArrayList<User> passagers) {
+	public void setPassagers(Collection<User> passagers) {
 		this.passagers = passagers;
 	}
 
@@ -94,6 +97,22 @@ public class Trajet implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public Collection<Position> getPoints() {
+		return points;
+	}
+
+	public void setPoints(Collection<Position> points) {
+		this.points = points;
+	}
+
+	public Voiture getVoiture() {
+		return voiture;
+	}
+
+	public void setVoiture(Voiture voiture) {
+		this.voiture = voiture;
 	}
 	
 }

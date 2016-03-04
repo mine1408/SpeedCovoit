@@ -9,11 +9,12 @@
 		<class>com.speedcovoit.model.Voiture</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/speedCovoit" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/speedcovoit" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="root" />
-			<property name="eclipselink.ddl-generation.output-mode" value="speedCovoit" />
+			<property name="eclipselink.ddl-generation.output-mode" value="speedcovoit" />
 			<property name="eclipselink.allow-zero-id" value="true" />
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
 		</properties>
 	</persistence-unit>
 </persistence>
