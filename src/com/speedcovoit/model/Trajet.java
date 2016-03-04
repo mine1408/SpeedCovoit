@@ -9,13 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@NamedQuery(name="Trajet.findAll", query="SELECT t FROM Trajet t")
+@Table(name="Trajet")
+//@NamedQuery(name="Trajet.findAll", query="SELECT t FROM Trajet t")
 public class Trajet implements Serializable {
 
 	private static final long serialVersionUID = 1L;

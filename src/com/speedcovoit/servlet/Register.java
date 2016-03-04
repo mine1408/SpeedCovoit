@@ -85,14 +85,14 @@ public class Register extends HttpServlet {
 			actionMessage = "Succès de l'inscription pour : " + email;
 			form = new HashMap<String, String>();
 			errorStatus = false;
-			
+
 			fact = Persistence.createEntityManagerFactory(PERSISTENT_UNIT_NAME);
 			em = fact.createEntityManager();
 			em.getTransaction().begin();
 			em.persist(newUser);
 			em.getTransaction().commit();
 			em.close();
-			
+
 		} else {
 			actionMessage = "Echec de l'inscription";
 			errorStatus = true;

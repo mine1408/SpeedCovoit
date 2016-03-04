@@ -2,9 +2,11 @@ package com.speedcovoit.servlet;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.speedcovoit.model.User;
-
-import sun.text.normalizer.ICUBinary.Authenticate;
 
 /**
  * Servlet implementation class LoginAction
@@ -27,7 +27,10 @@ public class LoginAction extends HttpServlet {
 
 	// Form fields
 	public static final String FIELD_EMAIL = "email";
-	public static final String FIELD_PWD = "pwd";
+	public static final String FIELD_PWD = "mdp";
+	private static final String PERSISTENT_UNIT_NAME = "SpeedCovoit";
+	private static EntityManager em;
+	private static EntityManagerFactory fact;
 
 	// Request attributs
 	Map<String, String> error;// = new HashMap<String, String>();
@@ -67,7 +70,7 @@ public class LoginAction extends HttpServlet {
 			throws ServletException, IOException {
 		// Get form fields
 		String email = request.getParameter(FIELD_EMAIL);
-		String pwd = request.getParameter(FIELD_PWD);
+		String mdp = request.getParameter(FIELD_PWD);
 
 		// Prepare data for view (attributs)
 		error = new HashMap<String, String>();
@@ -78,17 +81,16 @@ public class LoginAction extends HttpServlet {
 		String msgVal = null;
 		if (msgVal == null) {
 			form.put(FIELD_EMAIL, email);
-		} /*else {
-			error.put(FIELD_EMAIL, msgVal);
-		}*/
-		msgVal = validatePwd(pwd);
+		} 
+		
+		msgVal = validatePwd(mdp);
 		if (msgVal == null) {
-			form.put(FIELD_PWD, pwd);
+			form.put(FIELD_PWD, mdp);
 		} else {
 			error.put(FIELD_PWD, msgVal);
 		}
 
-		if (error.isEmpty() && authenticate(email, pwd)) {
+		if (error.isEmpty() && isUserExist(email, mdp)) {
 			statusOk = true;
 			statusMessage = "Connecté";
 		} else {
@@ -106,30 +108,19 @@ public class LoginAction extends HttpServlet {
 		this.getServletContext().getRequestDispatcher(VIEW_PAGES_URL).include(request, response);
 	}
 
-	private String validateEmail(String email) {
-		if (email != null && email.trim().length() != 0) {
-			if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
-				return "Veuillez saisir une adresse mail valide";
-			} else {
-				if (!isUserExist(email)) {
-					return "Login inconu";
-				}
-			}
-		} else {
-			return "L'adresse mail est obligatoire";
-		}
-		return null;
-	}
-
 	private String validatePwd(String pwd) {
 		return (pwd == null || pwd.equals("")) ? "Le mot de passe doit être renseigné" : null;
 	}
 
-	private boolean isUserExist(String login) {
-		return true;
+	private boolean isUserExist(String email, String mdp) {
+		fact = Persistence.createEntityManagerFactory(PERSISTENT_UNIT_NAME);
+		em = fact.createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.email ='"+email+"' AND u.mdp='"+mdp+"'");
+		boolean isUserExist = (q.getResultList().size() == 1);
+		em.getTransaction().commit();
+		em.close();
+		return isUserExist;
 	}
 
-	private boolean authenticate(String login, String pwd) {
-		return true;
-	}
 }
