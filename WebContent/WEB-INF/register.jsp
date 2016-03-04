@@ -6,6 +6,7 @@
     <head>
         <title>Inscription</title>
         <link type="text/css" rel="stylesheet" href="styles.css" />
+		<link type="text/css" rel="stylesheet" href="assets/bootstrap-3.3.6-dist/css/bootstrap.min.css" />
     </head>
     <body>
     	<c:import url="/WEB-INF/menu/menu.jsp" />

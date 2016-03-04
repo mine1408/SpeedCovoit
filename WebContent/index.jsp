@@ -6,12 +6,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="styles.css" />
+<link type="text/css" rel="stylesheet" href="assets/bootstrap-3.3.6-dist/css/bootstrap.min.css" />
 <title>Speed Covoit'</title>
 </head>
 <body>
-	<h1>Speed COVOIT'</h1>
+<div align="center">
+	<img src="assets/img/logo.png" style="width: 200px; margin-bottom: -30px"/>
+	<h1 class="title">Speed COVOIT'</h1>
 	<h3>N'attendez plus, nous avons déjà tout prévu.</h3>
 	<c:import url="/WEB-INF/menu/menu.jsp" />
 	<br>
+</div>
 </body>
 </html>
