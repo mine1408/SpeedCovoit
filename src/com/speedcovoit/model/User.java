@@ -3,7 +3,6 @@ package com.speedcovoit.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +24,6 @@ public class User implements Serializable{
 	
 	private String mdp;
 
-	//OK
 	@OneToOne
 	private Position position;
 	
