@@ -26,7 +26,7 @@ public class Register extends HttpServlet {
 	public static final String FIELD_EMAIL = "email";
 	public static final String FIELD_MDP = "mdp";
 	public static final String FIELD_CONFIRM_MDP = "mdpConf";
-	private static final String PERSISTENT_UNIT_NAME = "speedcovoit";
+	private static final String PERSISTENT_UNIT_NAME = "SpeedCovoit";
 	private static EntityManager em;
 	private static EntityManagerFactory fact;
 
@@ -85,14 +85,14 @@ public class Register extends HttpServlet {
 			actionMessage = "Succès de l'inscription pour : " + email;
 			form = new HashMap<String, String>();
 			errorStatus = false;
-			
+
 			fact = Persistence.createEntityManagerFactory(PERSISTENT_UNIT_NAME);
 			em = fact.createEntityManager();
 			em.getTransaction().begin();
 			em.persist(newUser);
 			em.getTransaction().commit();
 			em.close();
-			
+
 		} else {
 			actionMessage = "Echec de l'inscription";
 			errorStatus = true;

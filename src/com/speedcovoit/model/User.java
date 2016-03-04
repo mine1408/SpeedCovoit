@@ -2,34 +2,35 @@ package com.speedcovoit.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+import java.util.Collection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Table(name="User")
+//@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long idUser;
 	
 	private String email;
 	
 	private String mdp;
-	
-	@ManyToOne
-	@JoinColumn(name="idPosition")
+
+	@OneToOne
 	private Position position;
 	
-	private ArrayList<String> centresInteret;
+	private Collection<String> centresInteret;
 	
-	private ArrayList<String> preferences;
+	private Collection<String> preferences;
 	
 	public User() {
 		this.centresInteret = new ArrayList<String>();
@@ -76,19 +77,19 @@ public class User implements Serializable{
 		this.position = position;
 	}
 
-	public ArrayList<String> getCentresInterets() {
+	public Collection<String> getCentresInterets() {
 		return centresInteret;
 	}
 
-	public void setCentresInterets(ArrayList<String> centresInterets) {
+	public void setCentresInterets(Collection<String> centresInterets) {
 		this.centresInteret = centresInterets;
 	}
 
-	public ArrayList<String> getPreferences() {
+	public Collection<String> getPreferences() {
 		return preferences;
 	}
 
-	public void setPreferences(ArrayList<String> preferences) {
+	public void setPreferences(Collection<String> preferences) {
 		this.preferences = preferences;
 	}
 	
