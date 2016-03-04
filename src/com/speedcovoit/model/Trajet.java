@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,26 +23,25 @@ public class Trajet implements Serializable {
 	@Id
 	private long idTrajet;
 	
-	@ManyToOne
-	@JoinColumn(name="idPosition")
+	@OneToOne
 	private Position depart;
 	
-	@ManyToOne
-	@JoinColumn(name="idPosition")
+	@OneToOne
 	private Position arrivee;
+	
+	@OneToMany
+	private ArrayList<Position> points;
 	
 	@ManyToMany
 	private ArrayList<User> passagers;
 	
-	@ManyToOne
-	@JoinColumn(name="idUser")
+	@OneToOne
 	private User conducteur;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
-	@ManyToOne
-	@JoinColumn(name="idVoiture")
+	@OneToOne
 	private Voiture voiture;
 	
 	public Trajet() {
