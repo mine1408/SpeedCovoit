@@ -1,4 +1,4 @@
-package com.amoroso.servlet;
+package com.speedcovoit.servlet;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.amoroso.servlet;
+package com.speedcovoit.servlet;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.amoroso.model.User;
+import com.speedcovoit.model.User;
 
 import sun.text.normalizer.ICUBinary.Authenticate;
 

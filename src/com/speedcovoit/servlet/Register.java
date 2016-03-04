@@ -1,4 +1,4 @@
-package com.amoroso.servlet;
+package com.speedcovoit.servlet;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,7 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.amoroso.model.User;
+
+import com.speedcovoit.model.User;
 
 /**
  * Servlet implementation class Register
@@ -83,7 +84,7 @@ public class Register extends HttpServlet {
 		User newUser = null;
 		boolean errorStatus = true;
 		if (erreurs.isEmpty()) {
-			newUser = new User(name, email, pwd);
+		//	newUser = new User(newUser.addOneToId(),name, prenom, email, pwd);
 			actionMessage = "Succès de l'inscription";
 			form = new HashMap<String, String>();
 			errorStatus = false;
