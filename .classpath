@@ -14,8 +14,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/CLOE/Documents/Cloé/Cours/Majeure Dev/2/mysql-connector-java-5.1.13-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hdelo/Documents/sts-bundle/pivotal-tc-server-developer-3.1.2.RELEASE/tomcat-8.0.26.B.RELEASE/lib/jasper.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hdelo/Desktop/Dev_JAVA/TP/mysql-connector-java-5.1.13-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/CLOE/Documents/Cloé/Cours/Majeure Dev/2/jasper-1.0.0-v20070607.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EclipseLink 2.5.2">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>

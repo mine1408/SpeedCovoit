@@ -3,6 +3,7 @@ package com.speedcovoit.servlet;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -120,5 +121,4 @@ public class LoginAction extends HttpServlet {
 		em.close();
 		return isUserExist;
 	}
-
 }

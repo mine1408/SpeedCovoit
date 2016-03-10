@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class LogoutAction
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	public static final String URL_REDIRECTION = "/index.jsp";
+	
 	// View
 	public static String VIEW_PAGES_URL = "/";
 
@@ -31,7 +34,12 @@ public class LogoutAction extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+		/* Récupération et destruction de la session en cours */
+        HttpSession session = request.getSession();
+        session.invalidate();
+        
+        /* Redirection vers la page index.jsp ! */
+        response.sendRedirect( URL_REDIRECTION );
 	}
 
 	/**
