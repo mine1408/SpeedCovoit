@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 public class LogoutAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public static final String URL_REDIRECTION = "/index.jsp";
+	public static final String URL_REDIRECTION = "/UserManager/index.jsp";
 	
 	// View
 	public static String VIEW_PAGES_URL = "/";
