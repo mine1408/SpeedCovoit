@@ -3,7 +3,6 @@ package com.speedcovoit.servlet;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -86,12 +85,17 @@ public class LoginAction extends HttpServlet {
 			error.put(FIELD_PWD, msgVal);
 		}
 
-		if (error.isEmpty() && isUserExist(email, mdp)) {
-			statusOk = true;
-			statusMessage = "Connecté";
-		} else {
-			statusOk = false;
-			statusMessage = "Connexion refusée";
+		try {
+			if (error.isEmpty() && isUserExist(email, mdp)) {
+				statusOk = true;
+				statusMessage = "Connecté";
+			} else {
+				statusOk = false;
+				statusMessage = "Connexion refusée";
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		// Prepare model to view
@@ -108,11 +112,13 @@ public class LoginAction extends HttpServlet {
 		return (pwd == null || pwd.equals("")) ? "Le mot de passe doit être renseigné" : null;
 	}
 
-	public boolean isUserExist(String email, String mdp) {
+	public boolean isUserExist(String email, String mdp) throws Exception {
 		fact = Persistence.createEntityManagerFactory(PERSISTENT_UNIT_NAME);
 		em = fact.createEntityManager();
 		em.getTransaction().begin();
-		Query q = em.createQuery("SELECT u FROM User u WHERE u.email ='"+email+"' AND u.mdp='"+mdp+"'");
+		Register reg = new Register();
+		String mdpEncrypt = reg.encryptMdp(mdp);
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.email ='"+email+"' AND u.mdp='"+mdpEncrypt+"'");
 		boolean isUserExist = (q.getResultList().size() == 1);
 		em.getTransaction().commit();
 		em.close();

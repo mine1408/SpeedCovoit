@@ -12,7 +12,7 @@
 		<div class="col-md-12">Bienvenue dans votre espace personnel</div>
 		
 		<c:import url="/WEB-INF/menu/menuAccueil.jsp" />
-		<a class="btn btn-primary btn-lg" href="<c:url value="/login"/>"><input type="submit" value="Deconnexion" class="sansLabel" /></a>
+		<a class="btn btn-primary btn-lg" href="<c:url value="/index"/>">Déconnexion</a>
 		
 	</form>
 </fieldset>

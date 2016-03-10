@@ -1,14 +1,15 @@
 package com.speedcovoit.servlet;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
-
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.speedcovoit.model.User;
+
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 /**
  * Servlet implementation class Register
@@ -25,12 +29,14 @@ public class Register extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	public static String VIEW_PAGES_URL = "/WEB-INF/register.jsp";
+	public static String VIEW_URL = "/WEB-INF/login/form.jsp";
 	public static final String FIELD_EMAIL = "email";
 	public static final String FIELD_MDP = "mdp";
 	public static final String FIELD_CONFIRM_MDP = "mdpConf";
 	private static final String PERSISTENT_UNIT_NAME = "SpeedCovoit";
 	private static EntityManager em;
 	private static EntityManagerFactory fact;
+	private static final byte[] keyValue = new byte[] { 'T', 'h', 'i', 's', 'I', 's', 'A', 'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y' };
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -83,27 +89,36 @@ public class Register extends HttpServlet {
 		User newUser = null;
 		boolean errorStatus = true;
 		LoginAction log = new LoginAction();
-		if (erreurs.isEmpty() && !log.isUserExist(email, mdp)) {
-			try {
-				mdp = encryptMdp(mdp);
-			} catch (Exception e) {
-				e.printStackTrace();
+		try {
+			if (erreurs.isEmpty() && !log.isUserExist(email, mdp)) {
+				try {
+					mdp = encryptMdp(mdp);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				newUser = new User(email, mdp);
+				actionMessage = "Succès de l'inscription";
+				form = new HashMap<String, String>();
+				errorStatus = false;
+
+				fact = Persistence.createEntityManagerFactory(PERSISTENT_UNIT_NAME);
+				em = fact.createEntityManager();
+				em.getTransaction().begin();
+				em.persist(newUser);
+				em.getTransaction().commit();
+				em.close();
+				
+				RequestDispatcher dispat;
+				dispat = request.getRequestDispatcher(VIEW_URL);
+				dispat.forward(request,response);
+
+			} else {
+				actionMessage = "Echec de l'inscription";
+				errorStatus = true;
 			}
-			newUser = new User(email, mdp);
-			actionMessage = "Succès de l'inscription pour : " + email;
-			form = new HashMap<String, String>();
-			errorStatus = false;
-
-			fact = Persistence.createEntityManagerFactory(PERSISTENT_UNIT_NAME);
-			em = fact.createEntityManager();
-			em.getTransaction().begin();
-			em.persist(newUser);
-			em.getTransaction().commit();
-			em.close();
-
-		} else {
-			actionMessage = "Echec de l'inscription";
-			errorStatus = true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		request.setAttribute("newUser", newUser);
 		request.setAttribute("form", form);
@@ -127,24 +142,29 @@ public class Register extends HttpServlet {
 	private String validateMdp(String mdp, String mdp2) {
 		return (mdp.equals(mdp2)) ? null : "Veuillez confirmer le mot de passe";
 	}
-	
+
 	public String encryptMdp(String password) throws Exception {
-        String generatedPassword = null;
-        String key = Long.toHexString(Double.doubleToLongBits(Math.random()));
-        try {
-            password = key + password + key;
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
-            byte[] bytes = md.digest();
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++) {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return generatedPassword;
-    }
+		Key key = generateKey();
+		Cipher c = Cipher.getInstance("AES");
+		c.init(Cipher.ENCRYPT_MODE, key);
+		byte[] encValue = c.doFinal(password.getBytes());
+		String encryptedValue = new BASE64Encoder().encode(encValue);
+		return encryptedValue;
+	}
+	
+	public String decryptMdp(String passwordEncrypted) throws Exception {
+	    Key key = generateKey();
+	    Cipher c = Cipher.getInstance("AES");
+	    c.init(Cipher.DECRYPT_MODE, key);
+	    byte[] decordedValue = new BASE64Decoder().decodeBuffer(passwordEncrypted);
+	    byte[] decValue = c.doFinal(decordedValue);
+	    String decryptedValue = new String(decValue);
+	    return decryptedValue;
+	}
+	
+	private static Key generateKey() throws Exception {
+	    Key key = new SecretKeySpec(keyValue, "AES");
+	    return key;
+	}
 
 }
