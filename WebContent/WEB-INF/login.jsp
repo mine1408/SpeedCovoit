@@ -11,7 +11,7 @@
 </head>
 <body>
 	<c:if test="${ !statusOK }">
-		<c:import url="/WEB-INF/menu/menu.jsp" />
+		<c:import url="/WEB-INF/menu/menuIndex.jsp" />
 		<br>
 		<c:import url="/WEB-INF/login/form.jsp" />
 	</c:if>

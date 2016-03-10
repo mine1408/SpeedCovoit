@@ -14,7 +14,7 @@
 	<img src="assets/img/logo.png" style="width: 200px; margin-bottom: -30px"/>
 	<h1 class="title">Speed COVOIT'</h1>
 	<h3>N'attendez plus, nous avons déjà tout prévu.</h3>
-	<c:import url="/WEB-INF/menu/menu.jsp" />
+	<c:import url="/WEB-INF/menu/menuIndex.jsp" />
 	<br>
 </div>
 </body>

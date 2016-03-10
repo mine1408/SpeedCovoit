@@ -37,14 +37,11 @@ public class LoginAction extends HttpServlet {
 	String statusMessage = "";
 	boolean statusOk = false;
 	
-	Register reg;
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public LoginAction() {
 		super();
-		this.reg = new Register();
 	}
 
 	/**
@@ -111,7 +108,7 @@ public class LoginAction extends HttpServlet {
 		return (pwd == null || pwd.equals("")) ? "Le mot de passe doit être renseigné" : null;
 	}
 
-	private boolean isUserExist(String email, String mdp) {
+	public boolean isUserExist(String email, String mdp) {
 		fact = Persistence.createEntityManagerFactory(PERSISTENT_UNIT_NAME);
 		em = fact.createEntityManager();
 		em.getTransaction().begin();

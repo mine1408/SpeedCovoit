@@ -1,6 +1,8 @@
 package com.speedcovoit.servlet;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,7 +82,13 @@ public class Register extends HttpServlet {
 
 		User newUser = null;
 		boolean errorStatus = true;
-		if (erreurs.isEmpty()) {
+		LoginAction log = new LoginAction();
+		if (erreurs.isEmpty() && !log.isUserExist(email, mdp)) {
+			try {
+				mdp = encryptMdp(mdp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			newUser = new User(email, mdp);
 			actionMessage = "Succès de l'inscription pour : " + email;
 			form = new HashMap<String, String>();
@@ -119,5 +127,24 @@ public class Register extends HttpServlet {
 	private String validateMdp(String mdp, String mdp2) {
 		return (mdp.equals(mdp2)) ? null : "Veuillez confirmer le mot de passe";
 	}
+	
+	public String encryptMdp(String password) throws Exception {
+        String generatedPassword = null;
+        String key = Long.toHexString(Double.doubleToLongBits(Math.random()));
+        try {
+            password = key + password + key;
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return generatedPassword;
+    }
 
 }
