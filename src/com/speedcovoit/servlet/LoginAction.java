@@ -3,7 +3,6 @@ package com.speedcovoit.servlet;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -13,8 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 
 /**
  * Servlet implementation class LoginAction
@@ -122,7 +119,6 @@ public class LoginAction extends HttpServlet {
 		Register reg = new Register();
 		String mdpEncrypt = reg.encryptMdp(mdp);
 		Query q = em.createQuery("SELECT u FROM User u WHERE u.email ='"+email+"' AND u.mdp='"+mdpEncrypt+"'");
-		System.out.println(q.toString());
 		boolean isUserExist = (q.getResultList().size() == 1);
 		em.getTransaction().commit();
 		em.close();

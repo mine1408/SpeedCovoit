@@ -2,8 +2,6 @@ package com.speedcovoit.servlet;
 
 import java.io.IOException;
 import java.security.Key;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.crypto.Cipher;
@@ -11,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +29,7 @@ public class Register extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	public static String VIEW_PAGES_URL = "/WEB-INF/register.jsp";
+	public static String VIEW_URL = "/WEB-INF/login/form.jsp";
 	public static final String FIELD_EMAIL = "email";
 	public static final String FIELD_MDP = "mdp";
 	public static final String FIELD_CONFIRM_MDP = "mdpConf";
@@ -97,7 +97,7 @@ public class Register extends HttpServlet {
 					e.printStackTrace();
 				}
 				newUser = new User(email, mdp);
-				actionMessage = "Succès de l'inscription pour : " + email;
+				actionMessage = "Succès de l'inscription";
 				form = new HashMap<String, String>();
 				errorStatus = false;
 
@@ -107,6 +107,10 @@ public class Register extends HttpServlet {
 				em.persist(newUser);
 				em.getTransaction().commit();
 				em.close();
+				
+				RequestDispatcher dispat;
+				dispat = request.getRequestDispatcher(VIEW_URL);
+				dispat.forward(request,response);
 
 			} else {
 				actionMessage = "Echec de l'inscription";
